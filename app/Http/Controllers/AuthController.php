@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterForm;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Traits\ApiResponser;
 use Illuminate\Http\RedirectResponse;
@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
 use LogicException;
 use Exception;
-use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -32,11 +31,10 @@ class AuthController extends Controller
      * @return JsonResponse
      * @throws BindingResolutionException
      */
-    public function register(RegisterForm $request)
+    public function register(RegisterRequest $request)
     {
         $inputs = $request->input();
 
-        dd($inputs);
         $user = User::create([
             'name' => $inputs['name'],
             'password' => bcrypt($inputs['password']),

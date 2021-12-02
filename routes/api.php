@@ -19,7 +19,7 @@ Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/users', 'UserController@index');
+    Route::resource('user', UserController::class)->except(['create', 'update']);
 
     Route::post('/logout', 'AuthController@logout');
 });
