@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Features;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,12 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/unauthenticated', 'AuthController@unauthenticated')->name('unauthenticated');
-Route::post('/login', 'AuthController@login');
-Route::post('/register', 'AuthController@register');
+if (Features::enabled(Features::registration())) {
+    Route::post('/register', [RegisteredUserController::class => 'store']);
+}
+
+Route::post('/sanctum/token', TokenController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('user', UserController::class)->except(['create', 'update']);
-
-    Route::post('/logout', 'AuthController@logout');
+    Route::resource('users', UserController::class)->except(['create', 'update']);
 });
