@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Laravel\Fortify\Fortify;
 
-class LoginRequest extends FormRequest
+class LoginRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class LoginRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,9 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            Fortify::username() => 'required|string',
+            'password' => 'required|string',
+            'device_name' => 'required',
         ];
     }
 }
